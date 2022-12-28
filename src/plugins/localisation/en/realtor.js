@@ -4,12 +4,18 @@ module.exports = {
     lang: 'en',
     WELCOME: {
         first:
-            '🇹🇷Turkey today is one of the most convenient and safe countries to move to. \n' +
+            'Arbat Homes Real Estate Agency welcomes you to our online property directory in Turkey!\n' +
             '\n' +
-            'Here foreigners can quickly get a residence permit and even a Turkish passport, and Turkey itself is a hospitable and welcoming country with a warm sea. \n' +
+            'Your choice of luxury villas and apartments in new buildings, as well as a wide selection of properties from owners!\n',
+        second:
+            'To search for objects by filters, click "Search by filters 🔍". Set the filters that suit you, then click "Search"!\n' +
             '\n' +
-            'It remains to find housing! 🏡',
-        second: 'Your choice of luxury villas and apartments in new buildings, as well as a wide range of properties from the owners!',
+            'To view all objects without restrictions, click "Search 🔍". \n' +
+            '\n' +
+            'P.s. For the service bot to work correctly, we need access to the IP address and basic information about the device.',
+    },
+    SEARCH_BY: {
+        text: 'Search by filters 🔍',
     },
     GET_USER_INFO: 'To facilitate interaction, please enter your full name and phone number',
     ENTER_PHONE_NUMBER: 'Please verify your phone number to continue searching.',
