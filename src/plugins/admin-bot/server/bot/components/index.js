@@ -24,6 +24,23 @@ module.exports = {
             regex: /\/delete/,
             fn: async (msg) => inlineCallBacks.DELETE(msg),
         },
+        REF: {
+            regex: /\/ref/,
+            fn: async (bot) => {
+                bot.reply('Лучшие комплексы и проекты в нашем боте @ArbatHomesBot', {
+                    reply_markup: {
+                        inline_keyboard: [
+                            [
+                                {
+                                    text: 'Посмотреть объекты',
+                                    url: 'https://t.me/ArbatHomesBot',
+                                },
+                            ],
+                        ],
+                    },
+                });
+            },
+        },
     },
     inlineCallBacks,
 };

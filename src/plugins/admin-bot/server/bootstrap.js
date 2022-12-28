@@ -33,6 +33,10 @@ module.exports = async () => {
                 command: 'help',
                 description: 'Помощь',
             },
+            {
+                command: 'ref',
+                description: 'Реферальная ссылка',
+            },
         ]);
 
         for (let command in commands) {
