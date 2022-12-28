@@ -8,9 +8,7 @@ module.exports = {
             '\n' +
             'Your choice of luxury villas and apartments in new buildings, as well as a wide selection of properties from owners!\n',
         second:
-            'To search for objects by filters, click "Search by filters 🔍". Set the filters that suit you, then click "Search"!\n' +
-            '\n' +
-            'To view all objects without restrictions, click "Search 🔍". \n' +
+            'To search for objects by filters, click "Search 🔍". Set the filters that suit you, then click "Search"!\n' +
             '\n' +
             'P.s. For the service bot to work correctly, we need access to the IP address and basic information about the device.',
     },
