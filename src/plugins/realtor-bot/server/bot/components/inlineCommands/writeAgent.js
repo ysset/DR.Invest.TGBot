@@ -20,6 +20,9 @@ module.exports = async (bot) => {
             localisation: {
                 populate: {
                     apartments: true,
+                    infrastructure: true,
+                    apartmentEquipment: true,
+                    floors: true,
                 },
             },
             layoutPhoto: true,

@@ -88,13 +88,13 @@ module.exports = {
     },
     WRITE_INLINE: {
         complex: {
-            text: 'Мне интересно',
+            text: 'Узнать цену',
         },
         villa: {
-            text: 'Мне интересно',
+            text: 'Узнать цену',
         },
         owner: {
-            text: 'Мне интересно',
+            text: 'Узнать цену',
         },
     },
     CANCEL_INTEREST_INLINE: { text: 'Отменить заявку' },
@@ -160,7 +160,6 @@ module.exports = {
         complex: (params) => {
             let {
                 title,
-                cost,
                 apartments,
                 city,
                 district,
@@ -182,7 +181,6 @@ module.exports = {
 
             return (
                 `<b>${title}</b>\n\n` +
-                `<b>Цена от € ${beautifyBigNum(cost)}</b>\n\n` +
                 `Город: ${city}\n\n` +
                 `Район: ${district}\n\n` +
                 `${area ? `Tерритория комплекса: ${beautifyBigNum(area)} м²\n\n` : ''}` +
@@ -200,7 +198,6 @@ module.exports = {
         villa: (params) => {
             let {
                 title,
-                cost,
                 city,
                 district,
                 metersFromTheSea,
@@ -221,7 +218,6 @@ module.exports = {
 
             return (
                 `<b>${title}</b>\n\n` +
-                `<b>Цена от € ${beautifyBigNum(cost)}</b>\n\n` +
                 `Город: ${city}\n\n` +
                 `Район: ${district}\n\n` +
                 `${
@@ -239,7 +235,6 @@ module.exports = {
         },
         owner: (params) => {
             let {
-                cost,
                 title,
                 caption,
                 city,
@@ -260,7 +255,6 @@ module.exports = {
 
             return (
                 `<b>${title}</b>\n\n` +
-                `<b>Цена: ${beautifyBigNum(cost)}</b>\n\n` +
                 `Город: ${city}\n\n` +
                 `${district ? `Район: ${district}\n\n` : ''}` +
                 `${neighborhood ? `Микрорайон: ${neighborhood}\n\n` : ''}` +
@@ -279,38 +273,35 @@ module.exports = {
     },
     SHORT_DESCRIPTION: {
         owner: (params, favorite) => {
-            let { title, layout, area, floors, city, district, cost } = params;
+            let { title, layout, area, floors, city, district } = params;
             floors = floors?.map((el) => el.floor).join(floors.length > 1 ? ' и ' : '');
 
             return (
                 `<b>${title}</b>\n\n` +
                 `Апартаменты${layout}, ${area} м², ${floors} этаж.\n` +
                 `${city}, район ${district}.\n\n` +
-                `<b>${beautifyBigNum(cost)} €</b>\n\n` +
                 `${favorite ? '❤️ Эти апартаменты в избранном ❤️' : ''}`
             );
         },
         complex: (params, favorite) => {
-            let { apartments, city, district, cost, title } = params;
+            let { apartments, city, district, title } = params;
             apartments = translateApartments(apartments);
 
             return (
                 `<b>${title}</b>\n\n` +
                 `${city}, район ${district}.\n\n` +
                 `${apartments ? `Апартаменты:\n${apartments}\n\n` : ''}` +
-                `<b>от ${beautifyBigNum(cost)} €</b>\n\n` +
                 `${favorite ? '❤️ Этот комплекс в избранном ❤️' : ''}`
             );
         },
         villa: (params, favorite) => {
-            let { apartments, city, district, cost, title } = params;
+            let { apartments, city, district, title } = params;
             apartments = translateApartments(apartments);
 
             return (
                 `<b>${title}</b>\n\n` +
                 `${city}, район ${district}.\n\n` +
                 `${apartments ? `Апартаменты:\n${apartments}\n\n` : ''}` +
-                `<b>от ${beautifyBigNum(cost)} €</b>\n\n` +
                 `${favorite ? '❤️ Эта вилла в избранном ❤️' : ''}`
             );
         },
@@ -334,7 +325,7 @@ module.exports = {
         text: 'Сохранить ❤️',
     },
     NEXT_INLINE: {
-        text: 'Далее',
+        text: 'Следующий',
     },
     PREVIOUS_INLINE: {
         text: 'Назад',
