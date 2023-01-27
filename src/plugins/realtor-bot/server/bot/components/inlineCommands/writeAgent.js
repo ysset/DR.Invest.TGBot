@@ -43,7 +43,11 @@ module.exports = async (bot) => {
     let flatLocal = flat.localisation.find((rec) => rec.language === localisation.lang);
     if (!flatLocal) flatLocal = flat.localisation.find((rec) => rec.language === 'ru');
 
-    const caption = localisation.SHORT_DESCRIPTION[table](flatLocal);
+    const agentCaption = localisation.AGENT_SHORT_DESCRIPTION[table]({
+        ...flatLocal,
+        webSiteId: flat.webSiteId,
+        developer: flat.developer,
+    });
 
     const userMessage = localisation.WRITE_AGENT.userText[table.toLowerCase()]({
         agentUsername,
@@ -102,6 +106,9 @@ module.exports = async (bot) => {
         .sendMessage(agentTelegramId, realtorMessage, { parse_mode: 'HTML' })
         .catch(console.error);
     await strapi.bots.admin
-        .sendPhoto(agentTelegramId, fs.createReadStream(resolvedPath), { caption, parse_mode: 'HTML' })
+        .sendPhoto(agentTelegramId, fs.createReadStream(resolvedPath), {
+            caption: agentCaption,
+            parse_mode: 'HTML',
+        })
         .catch(console.error);
 };

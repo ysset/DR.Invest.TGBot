@@ -117,11 +117,10 @@ module.exports = async (bot) => {
     }`;
 
     const table = recLocalisation.table.toLowerCase();
-    const caption = localisation.SHORT_DESCRIPTION[table](
-        recLocalisation.localisation,
-        recommendation.favorite,
-        recommendation.watched
-    );
+    const caption = localisation.SHORT_DESCRIPTION[table]({
+        ...recLocalisation.localisation,
+        ...recLocalisation,
+    });
 
     await bot
         .sendPhoto(chatId, fs.createReadStream(resolvedPath), {

@@ -157,8 +157,6 @@ module.exports = {
     HOUSING_FULL_DESCRIPTION: {
         complex: (params) => {
             let {
-                title,
-                cost,
                 apartments,
                 city,
                 district,
@@ -169,6 +167,7 @@ module.exports = {
                 apartmentEquipment,
                 constructionCompletionDate,
                 paymentMethod,
+                webSiteId,
             } = params;
             apartments = translateApartments(apartments);
             infrastructure = infrastructure?.map((el) => '• ' + el.title.trim() + ';').join('\n');
@@ -179,8 +178,7 @@ module.exports = {
             if (month && month <= 12 && year) date = `${getMonth('ru', month)} ${year}`;
 
             return (
-                `<b>${title}</b>\n\n` +
-                `<b>Price from € ${beautifyBigNum(cost)}</b>\n\n` +
+                `${webSiteId ? `<b> Site ID: ${webSiteId} </b>` : ''} \n\n` +
                 `City: ${city}\n\n` +
                 `District: ${district}\n\n` +
                 `${area ? `Complex area: ${beautifyBigNum(area)} м²\n\n` : ''}` +
@@ -199,8 +197,6 @@ module.exports = {
         },
         villa: (params) => {
             let {
-                title,
-                cost,
                 city,
                 district,
                 metersFromTheSea,
@@ -210,6 +206,7 @@ module.exports = {
                 apartmentEquipment,
                 constructionCompletionDate,
                 paymentMethod,
+                webSiteId,
             } = params;
             apartments = translateApartments(apartments);
             infrastructure = infrastructure?.map((el) => '• ' + el.title.trim() + ';').join('\n');
@@ -220,8 +217,7 @@ module.exports = {
             if (month && month <= 12 && year) date = `${getMonth('ru', month)} ${year}`;
 
             return (
-                `<b>${title}</b>\n\n` +
-                `<b>Price from € ${beautifyBigNum(cost)}</b>\n\n` +
+                `${webSiteId ? `<b> Site ID: ${webSiteId} </b>` : ''} \n\n` +
                 `City: ${city}\n\n` +
                 `District: ${district}\n\n` +
                 `${
@@ -239,8 +235,6 @@ module.exports = {
         },
         owner: (params) => {
             let {
-                cost,
-                title,
                 caption,
                 city,
                 district,
@@ -253,14 +247,14 @@ module.exports = {
                 infrastructure,
                 metersFromTheSea,
                 paymentMethod,
+                webSiteId,
             } = params;
             infrastructure = infrastructure?.map((el) => '• ' + el.title.trim() + ';').join('\n');
             furniture = furniture?.map((el) => '- ' + el.title.trim() + ';').join('\n');
             floors = floors?.map((el) => el.floor).join(' and ');
 
             return (
-                `<b>${title}</b>\n\n` +
-                `<b>Price: ${beautifyBigNum(cost)}</b>\n\n` +
+                `${webSiteId ? `<b> Site ID: ${webSiteId} </b>` : ''} \n\n` +
                 `City: ${city}\n\n` +
                 `${district ? `District: ${district}\n\n` : ''}` +
                 `${neighborhood ? `Neighbourhood: ${neighborhood}\n\n` : ''}` +
@@ -277,40 +271,75 @@ module.exports = {
             );
         },
     },
-    SHORT_DESCRIPTION: {
-        owner: (params, favorite) => {
-            let { title, layout, area, floors, city, district, cost } = params;
-            floors = floors?.map((el) => el.floor).join(floors.length > 1 ? ' and ' : '');
+    AGENT_SHORT_DESCRIPTION: {
+        owner: (params) => {
+            let { title, layout, area, floors, city, district, webSiteId, developer } = params;
+            floors = floors?.map((el) => el.floor).join(floors.length > 1 ? ' и ' : '');
 
             return (
                 `<b>${title}</b>\n\n` +
+                `${webSiteId ? `<b> Site ID: ${webSiteId} </b>` : ''} \n\n` +
+                `Apartments${layout}, ${area} м², ${floors} этаж.\n` +
+                `${city}, district ${district}.\n\n` +
+                `${developer ? `Developer: ${developer}` : ''}`
+            );
+        },
+        complex: (params) => {
+            let { apartments, city, district, title, webSiteId, developer } = params;
+            apartments = translateApartments(apartments);
+
+            return (
+                `<b>${title}</b>\n\n` +
+                `${webSiteId ? `<b> Site ID: ${webSiteId} </b>` : ''} \n\n` +
+                `${city}, district ${district}.\n\n` +
+                `${apartments ? `Apartments:\n${apartments}\n\n` : ''}` +
+                `${developer ? `Developer: ${developer}` : ''}`
+            );
+        },
+        villa: (params) => {
+            let { apartments, city, district, title, webSiteId, developer } = params;
+            apartments = translateApartments(apartments);
+
+            return (
+                `<b>${title}</b>\n\n` +
+                `${webSiteId ? `<b> Site ID: ${webSiteId} </b>` : ''} \n\n` +
+                `${city}, district ${district}.\n\n` +
+                `${apartments ? `Apartments:\n${apartments}\n\n` : ''}` +
+                `${developer ? `Developer: ${developer}` : ''}`
+            );
+        },
+    },
+    SHORT_DESCRIPTION: {
+        owner: (params, favorite) => {
+            let { layout, area, floors, city, district, webSiteId } = params;
+            floors = floors?.map((el) => el.floor).join(floors.length > 1 ? ' and ' : '');
+
+            return (
+                `${webSiteId ? `<b> Site ID: ${webSiteId} </b>` : ''} \n\n` +
                 `Apartments${layout}, ${area} m², ${floors} floor.\n` +
                 `${city}, district ${district}.\n\n` +
-                `<b>${beautifyBigNum(cost)} €</b>\n\n` +
                 `${favorite ? '❤️ This apartment is in favorites ❤️' : ''}`
             );
         },
         complex: (params, favorite) => {
-            let { apartments, city, district, cost, title } = params;
+            let { apartments, city, district, webSiteId } = params;
             apartments = apartments.map(({ layout, area }) => `${layout}, ${area} м²`).join('\n');
 
             return (
-                `<b>${title}</b>\n\n` +
+                `${webSiteId ? `<b> Site ID: ${webSiteId} </b>` : ''} \n\n` +
                 `${city}, district ${district}.\n\n` +
                 `Apartments:\n${apartments}\n\n` +
-                `<b>from ${beautifyBigNum(cost)} €</b>\n\n` +
                 `${favorite ? '❤️ This complex is in favorites ❤️' : ''}`
             );
         },
         villa: (params, favorite) => {
-            let { apartments, city, district, cost, title } = params;
+            let { apartments, city, district, webSiteId } = params;
             apartments = apartments.map(({ layout, area }) => `${layout}, ${area} м²`).join('\n');
 
             return (
-                `<b>${title}</b>\n\n` +
+                `${webSiteId ? `<b> Site ID: ${webSiteId} </b>` : ''} \n\n` +
                 `${city}, district ${district}.\n\n` +
                 `Apartments:\n${apartments}\n\n` +
-                `<b>from ${beautifyBigNum(cost)} €</b>\n\n` +
                 `${favorite ? '❤️ This villa is favorite ❤️' : ''}`
             );
         },

@@ -159,7 +159,6 @@ module.exports = {
     HOUSING_FULL_DESCRIPTION: {
         complex: (params) => {
             let {
-                title,
                 apartments,
                 city,
                 district,
@@ -170,6 +169,7 @@ module.exports = {
                 apartmentEquipment,
                 constructionCompletionDate,
                 paymentMethod,
+                webSiteId,
             } = params;
             apartments = translateApartments(apartments);
             infrastructure = infrastructure?.map((el) => '• ' + el.title.trim() + ';').join('\n');
@@ -180,7 +180,7 @@ module.exports = {
             if (month && month <= 12 && year) date = `${getMonth('ru', month)} ${year}`;
 
             return (
-                `<b>${title}</b>\n\n` +
+                `${webSiteId ? `<b> ID с сайта: ${webSiteId} </b>` : ''} \n\n` +
                 `Город: ${city}\n\n` +
                 `Район: ${district}\n\n` +
                 `${area ? `Tерритория комплекса: ${beautifyBigNum(area)} м²\n\n` : ''}` +
@@ -197,7 +197,6 @@ module.exports = {
         },
         villa: (params) => {
             let {
-                title,
                 city,
                 district,
                 metersFromTheSea,
@@ -207,6 +206,7 @@ module.exports = {
                 apartmentEquipment,
                 constructionCompletionDate,
                 paymentMethod,
+                webSiteId,
             } = params;
             apartments = translateApartments(apartments);
             infrastructure = infrastructure?.map((el) => '• ' + el.title.trim() + ';').join('\n');
@@ -217,7 +217,7 @@ module.exports = {
             if (month && month <= 12 && year) date = `${getMonth('ru', month)} ${year}`;
 
             return (
-                `<b>${title}</b>\n\n` +
+                `${webSiteId ? `<b> ID с сайта: ${webSiteId} </b>` : ''} \n\n` +
                 `Город: ${city}\n\n` +
                 `Район: ${district}\n\n` +
                 `${
@@ -235,7 +235,6 @@ module.exports = {
         },
         owner: (params) => {
             let {
-                title,
                 caption,
                 city,
                 district,
@@ -248,13 +247,14 @@ module.exports = {
                 infrastructure,
                 metersFromTheSea,
                 paymentMethod,
+                webSiteId,
             } = params;
             infrastructure = infrastructure?.map((el) => '• ' + el.title.trim() + ';').join('\n');
             furniture = furniture?.map((el) => '- ' + el.title.trim() + ';').join('\n');
             floors = floors?.map((el) => el.floor).join(' и ');
 
             return (
-                `<b>${title}</b>\n\n` +
+                `${webSiteId ? `<b> ID с сайта: ${webSiteId} </b>` : ''} \n\n` +
                 `Город: ${city}\n\n` +
                 `${district ? `Район: ${district}\n\n` : ''}` +
                 `${neighborhood ? `Микрорайон: ${neighborhood}\n\n` : ''}` +
@@ -271,35 +271,73 @@ module.exports = {
             );
         },
     },
-    SHORT_DESCRIPTION: {
-        owner: (params, favorite) => {
-            let { title, layout, area, floors, city, district } = params;
+    AGENT_SHORT_DESCRIPTION: {
+        owner: (params) => {
+            let { title, layout, area, floors, city, district, webSiteId, developer } = params;
             floors = floors?.map((el) => el.floor).join(floors.length > 1 ? ' и ' : '');
 
             return (
                 `<b>${title}</b>\n\n` +
+                `${webSiteId ? `<b> ID с сайта: ${webSiteId} </b>` : ''} \n\n` +
+                `Апартаменты${layout}, ${area} м², ${floors} этаж.\n` +
+                `${city}, район ${district}.\n\n` +
+                `${developer ? `Застройщик: ${developer}` : ''}`
+            );
+        },
+        complex: (params) => {
+            let { apartments, city, district, title, webSiteId, developer } = params;
+            apartments = translateApartments(apartments);
+
+            return (
+                `<b>${title}</b>\n\n` +
+                `${webSiteId ? `<b> ID с сайта: ${webSiteId} </b>` : ''} \n\n` +
+                `${city}, район ${district}.\n\n` +
+                `${apartments ? `Апартаменты:\n${apartments}\n\n` : ''}` +
+                `${developer ? `Застройщик: ${developer}` : ''}`
+            );
+        },
+        villa: (params) => {
+            let { apartments, city, district, title, webSiteId, developer } = params;
+            apartments = translateApartments(apartments);
+
+            return (
+                `<b>${title}</b>\n\n` +
+                `${webSiteId ? `<b> ID с сайта: ${webSiteId} </b>` : ''} \n\n` +
+                `${city}, район ${district}.\n\n` +
+                `${apartments ? `Апартаменты:\n${apartments}\n\n` : ''}` +
+                `${developer ? `Застройщик: ${developer}` : ''}`
+            );
+        },
+    },
+    SHORT_DESCRIPTION: {
+        owner: (params, favorite) => {
+            let { layout, area, floors, city, district, webSiteId } = params;
+            floors = floors?.map((el) => el.floor).join(floors.length > 1 ? ' и ' : '');
+
+            return (
+                `${webSiteId ? `<b> ID с сайта: ${webSiteId} </b>` : ''} \n\n` +
                 `Апартаменты${layout}, ${area} м², ${floors} этаж.\n` +
                 `${city}, район ${district}.\n\n` +
                 `${favorite ? '❤️ Эти апартаменты в избранном ❤️' : ''}`
             );
         },
         complex: (params, favorite) => {
-            let { apartments, city, district, title } = params;
+            let { apartments, city, district, webSiteId } = params;
             apartments = translateApartments(apartments);
 
             return (
-                `<b>${title}</b>\n\n` +
+                `${webSiteId ? `<b> ID с сайта: ${webSiteId} </b>` : ''} \n\n` +
                 `${city}, район ${district}.\n\n` +
                 `${apartments ? `Апартаменты:\n${apartments}\n\n` : ''}` +
                 `${favorite ? '❤️ Этот комплекс в избранном ❤️' : ''}`
             );
         },
         villa: (params, favorite) => {
-            let { apartments, city, district, title } = params;
+            let { apartments, city, district, webSiteId } = params;
             apartments = translateApartments(apartments);
 
             return (
-                `<b>${title}</b>\n\n` +
+                `${webSiteId ? `<b> ID с сайта: ${webSiteId} </b>` : ''} \n\n` +
                 `${city}, район ${district}.\n\n` +
                 `${apartments ? `Апартаменты:\n${apartments}\n\n` : ''}` +
                 `${favorite ? '❤️ Эта вилла в избранном ❤️' : ''}`

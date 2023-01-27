@@ -42,6 +42,12 @@
       "allowedTypes": [
         "images"
       ]
+    },
+    "webSiteId": {
+      "type": "string"
+    },
+    "developer": {
+      "type": "string"
     }
   }
 }

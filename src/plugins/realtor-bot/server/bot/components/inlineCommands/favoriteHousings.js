@@ -121,7 +121,7 @@ module.exports = async (bot) => {
 
         const table = object.table.toLowerCase();
         const flatId = object.id;
-        const caption = localisation.SHORT_DESCRIPTION[table](object.localisation);
+        const caption = localisation.SHORT_DESCRIPTION[table]({ ...object.localisation, ...object });
 
         await bot
             .sendPhoto(chatId, fs.createReadStream(resolvedPath), {

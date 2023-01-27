@@ -67,6 +67,8 @@ module.exports = async (bot) => {
         locationUrl: object.locationUrl,
         agent: object.agent,
         table,
+        webSiteId: object.webSiteId,
+        developer: object.developer,
     });
 
     for (let arrayOfPhotos of arrayOfArrayOfPhotos) {

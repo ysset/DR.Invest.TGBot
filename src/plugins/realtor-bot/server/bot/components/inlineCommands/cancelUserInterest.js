@@ -42,7 +42,11 @@ module.exports = async (bot) => {
     let flatLocal = flat.localisation.find((rec) => rec.language === localisation.lang);
     if (!flatLocal) flatLocal = flat.localisation.find((rec) => rec.language === 'ru');
 
-    const caption = localisation.SHORT_DESCRIPTION[table](flatLocal);
+    const agentCaption = localisation.AGENT_SHORT_DESCRIPTION[table]({
+        ...flatLocal,
+        webSiteId: flat.webSiteId,
+        developer: flat.developer,
+    });
 
     await strapi.entityService
         .update('api::log.log', log, {
@@ -90,7 +94,7 @@ module.exports = async (bot) => {
         .catch(console.error);
     await strapi.bots.admin
         .sendPhoto(logField.agent.telegramID, fs.createReadStream(resolvedPath), {
-            caption,
+            caption: agentCaption,
             parse_mode: 'HTML',
         })
         .catch(console.error);
