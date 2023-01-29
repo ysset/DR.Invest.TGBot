@@ -8,6 +8,7 @@ module.exports = async (bot) => {
         data: { table, flatId },
         user: { isFlatFavorite },
     } = bot;
+    bot.delete();
 
     const inline_keyboard = [
         [
@@ -68,5 +69,4 @@ module.exports = async (bot) => {
         },
         populate: '*',
     });
-    bot.delete();
 };
