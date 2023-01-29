@@ -179,7 +179,10 @@ module.exports = async (bot, writeAgent) => {
         object.layoutPhoto[0].url ? object.layoutPhoto[0].url : object.layoutPhoto[0].formats.large.url
     }`;
 
-    const caption = localisation.SHORT_DESCRIPTION[table]({ ...object.localisation, ...object });
+    const caption = localisation.SHORT_DESCRIPTION[table.toLowerCase()]({
+        ...object.localisation,
+        ...object,
+    });
 
     await bot
         .sendPhoto(chatId, fs.createReadStream(resolvedPath), {
